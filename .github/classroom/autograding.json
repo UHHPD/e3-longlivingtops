@@ -1,0 +1,54 @@
+{
+  "tests": [
+    {
+      "name": "3.1",
+      "setup": "g++ -o poisson poisson.cc; ./poisson",
+      "run": "cat histpoi.txt",
+      "input": "",
+      "output": "8\\s*2\\s*2.2845",
+      "comparison": "regex",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "3.2a",
+      "setup": "g++ -o likelihood likelihood.cc",
+      "run": "./likelihood",
+      "input": "",
+      "output": "7.76841e-195",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "3.2b",
+      "setup": "g++ -o likelihood likelihood.cc; ./likelihood",
+      "run": "cat likelihood.txt",
+      "input": "",
+      "output": "3.2\\s*5.96523e-195",
+      "comparison": "regex",
+      "timeout": 10,
+      "points": 100
+    },
+    {
+      "name": "3.2c",
+      "setup": "g++ -o likelihood likelihood.cc; ./likelihood",
+      "run": "cat nll.txt",
+      "input": "",
+      "output": "3.1\\s*893.926",
+      "comparison": "regex",
+      "timeout": 10,
+      "points": 1000
+    },
+    {
+      "name": "3.2e",
+      "setup": "g++ -o likelihood likelihood.cc",
+      "run": "./likelihood",
+      "input": "",
+      "output": "233.942",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10000
+    }
+  ]
+}
