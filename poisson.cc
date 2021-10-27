@@ -1,10 +1,10 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-
+#include <cmath>
 
 double poisson(double mu, int k) {
-    return 0;
+    return pow(mu,k)*exp(-mu)/tgamma(k+1);
 }
 
 int main() {
@@ -13,6 +13,7 @@ int main() {
 
     ifstream fin("datensumme.txt");
     ofstream fout("hist.txt");
+    ofstream foutpoi("histpoi.txt");
 
     int n_i;
     for(int i = 0 ; i < 234 ; ++i) {
@@ -23,8 +24,10 @@ int main() {
     for ( unsigned int k = 0 ; k < zaehler . size () ; ++ k ) 
     {
       cout << k << ":" << zaehler [ k ] <<  endl ;
+      foutpoi << k << "\t" << zaehler[k] << "\t" << 234*poisson(3.11538,k) << endl;
       fout << k<<"\t" << zaehler [ k ] << endl;
     }
     fout.close();
+    foutpoi.close();
 }
 //Hallo Daniel Hallo Cedric
