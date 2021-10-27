@@ -3,12 +3,13 @@
 #include <fstream>
 #include <vector>
 #include <cmath>
+using namespace std;
 
 double poisson(double mu, int k) {
     return pow(mu,k)*exp(-mu)/tgamma(k+1);
 }
 
-double prop(std::vector<int> daten, double mu){
+double prop(vector<int> daten, double mu){
   double likelihood = 1;
   for(int k : daten){
     likelihood *= poisson(mu, k);
@@ -16,8 +17,16 @@ double prop(std::vector<int> daten, double mu){
   return likelihood;
 }
 
-int main() {
-    using namespace std;
+double lambda(vector<int> daten, double mean){
+      double prod=1;
+      for (int i=0; i<234; ++i){
+        prod *= poisson(mean,daten[i])/poisson(daten[i],daten[i]);
+      }
+    return prod;
+}
+
+int main() 
+{
 
     vector<int> daten;
     ifstream fin("datensumme.txt");
@@ -29,8 +38,9 @@ int main() {
     fin.close();
     
     //a)
+    double mean = 3.11538;
     double likelihood_mean;
-    likelihood_mean = prop(daten, 3.11538);
+    likelihood_mean = prop(daten, mean);
     cout << likelihood_mean << endl;
     
     //b)
@@ -60,13 +70,18 @@ int main() {
     //subtract loglikelihood from mean
     ofstream deltanll("deltanll.txt");
     vector<double> shiftedLLLH;
-    for (double i : logLikelihoods){
-      double deltanll_value = i+2*log(likelihood_mean);
+    for (int i=0; i<logLikelihoods.size(); ++i){
+      double deltanll_value = logLikelihoods[i]+2*log(likelihood_mean);
       shiftedLLLH.push_back(deltanll_value);
-      deltanll << deltanll_value << endl; 
+      deltanll << mus[i] << "\t" << deltanll_value << endl; 
     }
     deltanll.close();
 
+    //e)
     
+    //ofstream chi2("chi2.txt")
+    cout << "Lambda: " << -2*log(lambda(daten, mean)) << endl;
+    double z = (-2*log(lambda(daten, mean))-233)/sqrt(2*233);
+    cout << "z: " << z << endl;
     
 }
